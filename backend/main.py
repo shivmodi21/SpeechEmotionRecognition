@@ -81,6 +81,8 @@ async def predict(file: UploadFile = File(...)):
     except Exception as exc:
         raise HTTPException(status_code=422, detail=f"Could not process this audio file: {exc}") from exc
     finally:
+        await file.close()
+        
         if temp_path and os.path.exists(temp_path):
             os.remove(temp_path)
 
