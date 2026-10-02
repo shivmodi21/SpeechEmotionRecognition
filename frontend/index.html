@@ -6,8 +6,10 @@
   <title>Speech Emotion Recognition</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
+
 <body>
   <header class="nav">
     <a class="brand" href="#top">SER<span>.</span></a>
@@ -23,10 +25,20 @@
       <div class="hero-copy">
         <p class="eyebrow">MACHINE LEARNING · AUDIO</p>
         <h1>What does your <span>voice</span> sound like?</h1>
-        <p class="lead">Upload a short audio recording and let a neural network estimate one of Six emotions from its acoustic characteristics.</p>
-        <a class="scroll-link" href="#demo">Try the model ↓</a>
+        <p class="lead">
+          Upload a short audio recording and let a fusion neural network
+          estimate one of four emotions from complementary acoustic
+          representations.
+        </p>
+        <a class="scroll-link" href="#demo">
+          Try the model <i class="fa-solid fa-arrow-down"></i>
+        </a>
       </div>
-      <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-dot"></div></div>
+
+      <div class="hero-orb" aria-hidden="true">
+        <div class="orb-ring"></div>
+        <div class="orb-dot"></div>
+      </div>
     </section>
 
     <section id="demo" class="demo section-card">
@@ -40,67 +52,284 @@
 
       <div id="drop-zone" class="drop-zone" tabindex="0">
         <input id="audio-file" type="file" accept="audio/*" hidden />
-        <div class="upload-icon">↑</div>
+        <div class="upload-icon">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        </div>
         <h3>Drop your audio here</h3>
-        <p>or <button id="browse-btn" class="text-button" type="button">browse files</button></p>
+        <p>
+          or
+          <button id="browse-btn" class="text-button" type="button">
+            browse files
+          </button>
+        </p>
         <small>Maximum file size: 25 MB</small>
       </div>
 
       <div id="selected-file" class="selected-file hidden">
-        <div><span class="file-mark">♪</span><span id="file-name"></span></div>
+        <div>
+          <span class="file-mark">
+            <i class="fa-solid fa-file-audio"></i>
+          </span>
+          <span id="file-name"></span>
+        </div>
         <button id="predict-btn" type="button">Analyze audio</button>
       </div>
 
       <div id="status" class="status hidden" role="status" aria-live="polite">
-        <div class="status-line"><span class="pulse"></span><span id="status-text">Listening…</span></div>
+        <div class="status-line">
+          <span class="pulse"></span>
+          <span id="status-text">Listening…</span>
+        </div>
         <div id="emotion-chips" class="emotion-chips"></div>
       </div>
 
       <div id="result" class="result hidden" aria-live="polite">
         <p class="eyebrow">PREDICTION</p>
         <div class="result-main">
-          <span id="result-emotion-icon">—</span>
+          <span id="result-emotion-icon"></span>
           <span id="result-emotion">—</span>
           <span id="result-confidence">—</span>
         </div>
         <p id="result-file" class="result-file"></p>
         <div id="probabilities" class="probabilities"></div>
-        <button id="reset-btn" class="secondary-btn" type="button">Analyze another file</button>
+        <button id="reset-btn" class="secondary-btn" type="button">
+          Analyze another file
+        </button>
       </div>
 
       <div id="error" class="error hidden" role="alert"></div>
     </section>
 
     <section id="model" class="info-section">
-      <div class="section-heading"><div><p class="eyebrow">UNDER THE HOOD</p><h2>How the model works</h2></div></div>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">UNDER THE HOOD</p>
+          <h2>How the model works</h2>
+        </div>
+      </div>
+
       <div class="steps">
-        <article><span>01</span><h3>Audio</h3><p>Your recording is loaded as a mono waveform at its native sample rate.</p></article>
-        <article><span>02</span><h3>Features</h3><p>Six acoustic feature families are extracted and averaged over time.</p></article>
-        <article><span>03</span><h3>Scaling</h3><p>The 195-dimensional feature vector is standardized with the training scaler.</p></article>
-        <article><span>04</span><h3>Prediction</h3><p>A dense neural network produces probabilities for six observed emotions.</p></article>
+        <article>
+          <span>01</span>
+          <h3>Audio</h3>
+          <p>
+            The uploaded recording is prepared as the input for two
+            complementary model branches.
+          </p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <h3>Acoustic branch</h3>
+          <p>
+            A 550-dimensional handcrafted acoustic representation captures
+            complementary characteristics of speech.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <h3>CNN branch</h3>
+          <p>
+            A normalized 128 × 256 × 1 log-Mel spectrogram is processed by
+            a convolutional neural network.
+          </p>
+        </article>
+
+        <article>
+          <span>04</span>
+          <h3>Fusion</h3>
+          <p>
+            Both learned representations are combined before the final
+            four-class emotion prediction.
+          </p>
+        </article>
       </div>
     </section>
 
     <section id="features" class="info-section feature-section">
-      <div class="feature-copy"><p class="eyebrow">195 INPUT FEATURES</p><h2>What the model listens for</h2><p>The notebook combines complementary representations of speech and sound rather than relying on a single acoustic measurement.</p></div>
+      <div class="feature-copy">
+        <p class="eyebrow">550 ACOUSTIC FEATURES</p>
+        <h2>What the model listens for</h2>
+        <p>
+          The handcrafted branch combines complementary acoustic descriptors.
+          Time-varying features are summarized using their mean and standard
+          deviation, while MFCCs also include first- and second-order
+          temporal deltas.
+        </p>
+      </div>
+
       <div class="feature-grid">
-        <div><strong>40</strong><span>MFCCs</span></div>
-        <div><strong>12</strong><span>Chroma</span></div>
-        <div><strong>128</strong><span>Mel bands</span></div>
-        <div><strong>7</strong><span>Spectral contrast</span></div>
-        <div><strong>6</strong><span>Tonnetz</span></div>
-        <div><strong>2</strong><span>Polynomial features</span></div>
+        <div>
+          <strong>240</strong>
+          <span>MFCC + delta + delta-delta</span>
+        </div>
+        <div>
+          <strong>24</strong>
+          <span>Chroma statistics</span>
+        </div>
+        <div>
+          <strong>256</strong>
+          <span>Mel-spectrogram statistics</span>
+        </div>
+        <div>
+          <strong>14</strong>
+          <span>Spectral contrast statistics</span>
+        </div>
+        <div>
+          <strong>12</strong>
+          <span>Tonnetz statistics</span>
+        </div>
+        <div>
+          <strong>4</strong>
+          <span>Polynomial feature statistics</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-section cnn-section">
+      <div class="feature-copy">
+        <p class="eyebrow">128 × 256 × 1 CNN FEATURES</p>
+        <h2>Visualizing the voice</h2>
+        <p>
+          The CNN branch represents the audio as a normalized log-Mel
+          spectrogram. This time-frequency representation allows the
+          convolutional network to learn local patterns in the speech signal.
+        </p>
+      </div>
+
+      <div class="cnn-feature-card">
+        <div class="cnn-feature-visual">
+          <div class="spectrogram-grid" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="cnn-feature-details">
+          <div>
+            <strong>128</strong>
+            <span>Mel bands</span>
+          </div>
+          <div>
+            <strong>256</strong>
+            <span>Time frames</span>
+          </div>
+          <div>
+            <strong>1</strong>
+            <span>Channel</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="architecture section-card">
-      <div><p class="eyebrow">MODEL CONFIGURATION</p><h2>Dense neural network</h2></div>
-      <div class="arch-row"><span>195</span><i>→</i><span>780</span><i>→</i><span>780</span><i>→</i><span>195</span><i>→</i><span class="output">6</span></div>
-      <div class="config-grid"><p><b>Hidden activation</b><br>ReLU</p><p><b>Regularization</b><br>Dropout 0.30 / 0.20</p><p><b>Optimizer</b><br>Adagrad</p><p><b>Loss</b><br>Categorical crossentropy</p><p><b>Training</b><br>150 epochs · batch size 10</p><p><b>Outputs</b><br>Angry · Disgust · Fear · Happy · Neutral · Sad</p></div>
+      <div>
+        <p class="eyebrow">MODEL CONFIGURATION</p>
+        <h2>CNN + acoustic feature fusion</h2>
+      </div>
+
+      <div class="fusion-architecture">
+        <div class="fusion-branch">
+          <span class="branch-label">Acoustic branch</span>
+          <div class="arch-row compact">
+            <span>550</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>256</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>128</span>
+          </div>
+        </div>
+
+        <div class="fusion-branch">
+          <span class="branch-label">CNN branch</span>
+          <div class="arch-row compact">
+            <span>128 × 256 × 1</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>CNN</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>128</span>
+          </div>
+        </div>
+
+        <div class="fusion-arrow" aria-hidden="true">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+
+        <div class="fusion-final">
+          <div class="arch-row compact">
+            <span>256</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>128</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>64</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span class="output">4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-grid">
+        <p>
+          <b>Acoustic branch</b><br>
+          550 features → Dense 256 → Dense 128
+        </p>
+
+        <p>
+          <b>CNN branch</b><br>
+          Log-Mel 128 × 256 × 1 → CNN → Dense 128
+        </p>
+
+        <p>
+          <b>Fusion</b><br>
+          128 + 128 → Concatenate → Dense 128
+        </p>
+
+        <p>
+          <b>Regularization</b><br>
+          Dropout 0.30 / 0.40
+        </p>
+
+        <p>
+          <b>Optimizer</b><br>
+          Adam
+        </p>
+
+        <p>
+          <b>Loss</b><br>
+          Sparse categorical crossentropy
+        </p>
+
+        <p>
+          <b>Training</b><br>
+          Up to 150 epochs · batch size 32
+        </p>
+
+        <div class="config-item">
+          <b>Outputs</b>
+          <div class="emotion-config-chips">
+            <span class="emotion-config-chip">Angry</span>
+            <span class="emotion-config-chip">Happy</span>
+            <span class="emotion-config-chip">Neutral</span>
+            <span class="emotion-config-chip">Sad</span>
+          </div>
+        </div>
+
+        <p>
+          <b>Inference</b><br>
+          FastAPI · TensorFlow / Keras · Librosa
+        </p>
+      </div>
     </section>
   </main>
 
-  <footer><span>Speech Emotion Recognition</span><span>Built with Python · TensorFlow · Librosa · FastAPI</span></footer>
+  <footer>
+    <span>Speech Emotion Recognition</span>
+    <span>Built with Python · TensorFlow · Librosa · FastAPI</span>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

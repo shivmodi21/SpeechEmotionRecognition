@@ -24,16 +24,6 @@ const emotions = [
       icon: '<i class="fa-solid fa-face-angry"></i>'
   },
   {
-      id: 'disgust',
-      label: 'Disgust',
-      icon: '<i class="fa-solid fa-face-grimace"></i>'
-  },
-  {
-      id: 'fear',
-      label: 'Fear',
-      icon: '<i class="fa-solid fa-face-surprise"></i>'
-  },
-  {
       id: 'happy',
       label: 'Happy',
       icon: '<i class="fa-solid fa-face-smile"></i>'
