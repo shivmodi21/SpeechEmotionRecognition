@@ -1,0 +1,24 @@
+{
+    "feature_count": 550,
+    "feature_version": "v3",
+    "features": {
+        "mfcc": 40,
+        "mfcc_delta": 40,
+        "mfcc_delta_delta": 40,
+        "chroma": 12,
+        "mel": 128,
+        "contrast": 7,
+        "tonnetz": 6,
+        "poly": 2
+    },
+    "emotions": [
+        "angry",
+        "happy",
+        "neutral",
+        "sad"
+    ],
+    "validation_size": 0.15,
+    "test_size": 0.15,
+    "split_strategy": "actor_aware",
+    "random_state": 9
+}

@@ -1,0 +1,42 @@
+{
+    "model_type": "two_branch_feature_fusion",
+    "dataset": "CREMA-D",
+    "emotions": [
+        "angry",
+        "happy",
+        "neutral",
+        "sad"
+    ],
+    "handcrafted_features": {
+        "feature_count": 550,
+        "feature_type": "handcrafted_audio_features",
+        "mfcc": 40,
+        "mfcc_delta": 40,
+        "mfcc_delta_delta": 40,
+        "chroma": 12,
+        "mel": 128,
+        "contrast": 7,
+        "tonnetz": 6,
+        "poly": 2
+    },
+    "cnn_features": {
+        "feature_type": "log_mel_spectrogram",
+        "feature_shape": [
+            128,
+            256,
+            1
+        ]
+    },
+    "fusion": {
+        "handcrafted_branch_output": 128,
+        "cnn_branch_output": 128,
+        "fusion_input_size": 256,
+        "fusion_dense": 128
+    },
+    "validation_size": 0.15,
+    "test_size": 0.15,
+    "train_size": 0.7,
+    "random_state": 9,
+    "split_strategy": "actor_aware",
+    "handcrafted_scaling": "StandardScaler_fit_on_training_only"
+}

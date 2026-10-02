@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech Emotion Recognition</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top">SER<span>.</span></a>
+    <nav>
+      <a href="#demo">Demo</a>
+      <a href="#model">Model</a>
+      <a href="#features">Features</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">MACHINE LEARNING · AUDIO</p>
+        <h1>What does your <span>voice</span> sound like?</h1>
+        <p class="lead">Upload a short audio recording and let a neural network estimate one of Six emotions from its acoustic characteristics.</p>
+        <a class="scroll-link" href="#demo">Try the model ↓</a>
+      </div>
+      <div class="hero-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-dot"></div></div>
+    </section>
+
+    <section id="demo" class="demo section-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LIVE PREDICTION</p>
+          <h2>Upload an audio file</h2>
+        </div>
+        <span class="format-note">WAV · MP3 · FLAC · OGG · M4A · AAC</span>
+      </div>
+
+      <div id="drop-zone" class="drop-zone" tabindex="0">
+        <input id="audio-file" type="file" accept="audio/*" hidden />
+        <div class="upload-icon">↑</div>
+        <h3>Drop your audio here</h3>
+        <p>or <button id="browse-btn" class="text-button" type="button">browse files</button></p>
+        <small>Maximum file size: 25 MB</small>
+      </div>
+
+      <div id="selected-file" class="selected-file hidden">
+        <div><span class="file-mark">♪</span><span id="file-name"></span></div>
+        <button id="predict-btn" type="button">Analyze audio</button>
+      </div>
+
+      <div id="status" class="status hidden" role="status" aria-live="polite">
+        <div class="status-line"><span class="pulse"></span><span id="status-text">Listening…</span></div>
+        <div id="emotion-chips" class="emotion-chips"></div>
+      </div>
+
+      <div id="result" class="result hidden" aria-live="polite">
+        <p class="eyebrow">PREDICTION</p>
+        <div class="result-main">
+          <span id="result-emotion-icon">—</span>
+          <span id="result-emotion">—</span>
+          <span id="result-confidence">—</span>
+        </div>
+        <p id="result-file" class="result-file"></p>
+        <div id="probabilities" class="probabilities"></div>
+        <button id="reset-btn" class="secondary-btn" type="button">Analyze another file</button>
+      </div>
+
+      <div id="error" class="error hidden" role="alert"></div>
+    </section>
+
+    <section id="model" class="info-section">
+      <div class="section-heading"><div><p class="eyebrow">UNDER THE HOOD</p><h2>How the model works</h2></div></div>
+      <div class="steps">
+        <article><span>01</span><h3>Audio</h3><p>Your recording is loaded as a mono waveform at its native sample rate.</p></article>
+        <article><span>02</span><h3>Features</h3><p>Six acoustic feature families are extracted and averaged over time.</p></article>
+        <article><span>03</span><h3>Scaling</h3><p>The 195-dimensional feature vector is standardized with the training scaler.</p></article>
+        <article><span>04</span><h3>Prediction</h3><p>A dense neural network produces probabilities for six observed emotions.</p></article>
+      </div>
+    </section>
+
+    <section id="features" class="info-section feature-section">
+      <div class="feature-copy"><p class="eyebrow">195 INPUT FEATURES</p><h2>What the model listens for</h2><p>The notebook combines complementary representations of speech and sound rather than relying on a single acoustic measurement.</p></div>
+      <div class="feature-grid">
+        <div><strong>40</strong><span>MFCCs</span></div>
+        <div><strong>12</strong><span>Chroma</span></div>
+        <div><strong>128</strong><span>Mel bands</span></div>
+        <div><strong>7</strong><span>Spectral contrast</span></div>
+        <div><strong>6</strong><span>Tonnetz</span></div>
+        <div><strong>2</strong><span>Polynomial features</span></div>
+      </div>
+    </section>
+
+    <section class="architecture section-card">
+      <div><p class="eyebrow">MODEL CONFIGURATION</p><h2>Dense neural network</h2></div>
+      <div class="arch-row"><span>195</span><i>→</i><span>780</span><i>→</i><span>780</span><i>→</i><span>195</span><i>→</i><span class="output">6</span></div>
+      <div class="config-grid"><p><b>Hidden activation</b><br>ReLU</p><p><b>Regularization</b><br>Dropout 0.30 / 0.20</p><p><b>Optimizer</b><br>Adagrad</p><p><b>Loss</b><br>Categorical crossentropy</p><p><b>Training</b><br>150 epochs · batch size 10</p><p><b>Outputs</b><br>Angry · Disgust · Fear · Happy · Neutral · Sad</p></div>
+    </section>
+  </main>
+
+  <footer><span>Speech Emotion Recognition</span><span>Built with Python · TensorFlow · Librosa · FastAPI</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>

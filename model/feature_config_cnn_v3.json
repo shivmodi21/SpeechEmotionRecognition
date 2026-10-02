@@ -1,0 +1,35 @@
+{
+    "feature_type": "log_mel_spectrogram",
+    "sample_rate": 16000,
+    "n_mels": 128,
+    "n_fft": 1024,
+    "hop_length": 256,
+    "max_frames": 256,
+    "feature_shape": [
+        128,
+        256,
+        1
+    ],
+    "normalization": "per_sample_zscore",
+    "mono": true,
+    "fmax": 8000,
+    "emotions": [
+        "angry",
+        "happy",
+        "neutral",
+        "sad"
+    ],
+    "validation_size": 0.15,
+    "test_size": 0.15,
+    "random_state": 9,
+    "split_strategy": "actor_aware",
+    "train_actor_count": 63,
+    "validation_actor_count": 14,
+    "test_actor_count": 14,
+    "model_type": "2d_cnn",
+    "model_input_shape": [
+        128,
+        256,
+        1
+    ]
+}
